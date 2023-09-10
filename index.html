@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Кнопка и поп-ап окно</title>
+        <script src="send.php"></script>
+        <script>
+                    function checkPhone(phone) {
+          phone = document.getElementById("phone").value;
+          phone = phone.replace(/[^0-9\+]/g, "");
+          document.getElementById("phone").value = phone;
+          if (phone.match(/^(7|8|\+7)?(9)(\d{9})$/)) {
+            phone = phone.replace(/^(7|8|\+7)?(9)(\d{9})$/, "+7$2$3");
+            document.getElementById("phone").value = phone;
+            document.getElementById("errorPhone").innerHTML = "";
+            document.getElementById("buttonSubmit").disabled = false;
+          } else {
+            document.getElementById("errorPhone").innerHTML =
+              '<span style="color: red; font-weight: bolder;">Некорректный телефон</span>';
+          }
+        }
+        </script>
+    </head>
+    <body>
+        <div
+            style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
+            <button id="popupButton" class="popup-button"
+                style="background-color: #ff0000; color: white; border: none; width: 235px; height: 70px; font-size: 16px; cursor: pointer;">Кликни</button>
+        </div>
+        <div id="popup" class="popup"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1;">
+            <div class="popup-content"
+                style="background-color: white; width: 60%; max-width: 640px; margin: 20% auto; padding: 20px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); position: relative;">
+                <span class="close-button" id="closeButton"
+                    style="position: absolute; color: #ff0000; top: 10px; right: 10px; font-size: 24px; cursor: pointer;">&times;</span>
+                <h2 style="margin-bottom: 50px;">Получите набор файлов для
+                    руководителя:</h2>
+                <div style="display: flex;">
+                    <div style="margin-right: 20px;">
+                        <div>
+                            <img src="img/Ресурс 1.png" alt="1">
+                        </div>
+                        <div>
+                            <img src="img/fon1.png" alt="2">
+                        </div>
+                    </div>
+                    <div>
+                        <form action="send.php" method="post">
+                            <div> <!--почта-->
+                                <label for="email" style="padding-bottom: 10px;">
+                                    Введите e-mail для получения файлов:
+                                </label>
+                                <input
+                                    type="text"
+                                    name="email"
+                                    id="email"
+                                    placeholder="E-mail"
+                                    style="width: 280px; height: 50px; margin-bottom: 30px; padding: 0 10px; border: 1px gray solid; border-radius: 5px; " />
+                            </div>
+
+                            <div> <!--Телефон-->
+                                <label for="phone" style="margin-bottom: 10px;">
+                                    Введите телефон для подтверждения доступа:*
+                                </label>
+                                <input
+                                    type="tel"
+                                    name="phone"
+                                    id="phone"
+                                    placeholder="+7 (000) 000-00-00"
+                                    required
+                                    style="width: 280px; height: 50px; margin-bottom: 5px; padding: 0 10px; border: 1px gray solid; border-radius: 5px; "
+                                    onkeyup="checkPhone()" />
+                                <p id="errorPhone"></p>
+                            </div>
+
+                            <button onclick="sendJSON()"
+                                id="buttonSubmit"
+                                style="background-color: #3ACC6F; color: #fff; width: 300px; height: 50px; border: none; border-radius: 10px;">
+                                СКАЧАТЬ ФАЙЛЫ
+                                <img src="img/knopka (2).svg" alt="2"
+                                    style="height: 20px; width: 20px;">
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>const popupButton = document.getElementById('popupButton');
+const popup = document.getElementById('popup');
+const closeButton = document.getElementById('closeButton');
+
+popupButton.addEventListener('click', () => {
+    popup.style.display = 'block';
+});
+
+closeButton.addEventListener('click', () => {
+    popup.style.display = 'none';
+});
+
+// Закрыть поп-ап, если пользователь щелкнул вне него
+window.addEventListener('click', (e) => {
+    if (e.target === popup) {
+        popup.style.display = 'none';
+    }
+});
+</script>
+    </body>
+</html>
